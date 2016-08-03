@@ -9,4 +9,8 @@
 # I should get prices
 ${TF}/wgetGSPCnight.bash
 
+# I should generate features from prices:
+cd ${TFTMP}/csv
+${HOME}/anaconda3/bin/python ${TF}/genf.py GSPC2.csv
+
 exit
