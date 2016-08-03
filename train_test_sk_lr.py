@@ -66,6 +66,7 @@ for yr in range(startyr,1+finalyr):
     xf_a           = xoos_a.astype(float)
     xr_a           = xf_a.reshape(1, -1)
     aprediction = clf.predict_proba(xr_a)[0,1]
+    # Maybe I can vectorize above call?
     prob_l.append(aprediction)
     if (aprediction > 0.5):
       predictions_l.append(1)  # up   prediction
