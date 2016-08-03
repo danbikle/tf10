@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# night10.bash
+# wgetGSPCnight.bash
 
-# This script should calculate predictions of the S&P500.
+# Demo:
+# cd $TFTMP
+# ${TF}/wgetGSPCnight.bash
 
-. envtf.bash
+# This script should be called by night10.bash
+# This script should get prices at night.
 
-# I should get prices
-cd $TFTMP
-mkdir -p csv
-cd csv
-${TF}/wgetGSPCnight.bash
+mkdir -p ${HOME}/spy611v2/public/csv/
+cd       ${HOME}/spy611v2/public/csv/
 
 TKRH='%5EGSPC'
 TKR='GSPC'
@@ -21,4 +21,3 @@ echo 'cdate,cp'                                           > ${TKR}2.csv
 grep -v Date /tmp/${TKR}.csv|awk -F, '{print $1 "," $5}' >> ${TKR}2.csv
 
 exit
-
