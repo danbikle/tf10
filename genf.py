@@ -3,8 +3,8 @@
 # This script should generate features from prices
 
 # Demo:
-cd ${TFTMP}/csv
-${HOME}/anaconda3/bin/python ${TF}/genf.py GSPC2.csv
+# cd ${TFTMP}/csv
+# ${HOME}/anaconda3/bin/python ${TF}/genf.py GSPC2.csv
 
 import pandas as pd
 import numpy  as np
