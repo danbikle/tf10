@@ -45,8 +45,8 @@ for yr in range(startyr,1+finalyr):
   # I should learn from x_train_a,label_train_a:
 
   from sklearn import linear_model
-  clf_lr = linear_model.LogisticRegression()
-  clf_lr.fit(x_train_a, label_train_a)
+  clf = linear_model.LogisticRegression()
+  clf.fit(x_train_a, label_train_a)
 
   # Now that I have learned, I should predict:
   testf    = 'test'+str(yr)+'.csv'
@@ -55,53 +55,53 @@ for yr in range(startyr,1+finalyr):
   x_test_a = test_a[:,pctlag1_i:end_i]
   y_test_a = test_a[:,pctlead_i]
   label_test_a  = y_test_a > train_median
-  prob_lr_l        = []
-  predictions_lr_l = []
-  eff1d_lr_l       = [0.0]
-  recent_eff_lr_l  = [0.0]
-  acc_lr_l         = []
+  prob_l        = []
+  predictions_l = []
+  eff1d_l       = [0.0]
+  recent_eff_l  = [0.0]
+  acc_l            = []
   xcount           = -1
   for xoos_a in x_test_a:
     xcount        += 1 # should == 0 1st time through
     xf_a           = xoos_a.astype(float)
     xr_a           = xf_a.reshape(1, -1)
-    aprediction_lr = clf_lr.predict_proba(xr_a)[0,1]
-    prob_lr_l.append(aprediction_lr)
-    if (aprediction_lr > 0.5):
-      predictions_lr_l.append(1)  # up   prediction
+    aprediction = clf.predict_proba(xr_a)[0,1]
+    prob_l.append(aprediction)
+    if (aprediction > 0.5):
+      predictions_l.append(1)  # up   prediction
     else:
-      predictions_lr_l.append(-1) # down prediction
+      predictions_l.append(-1) # down prediction
     # I should save effectiveness of each prediction:
     pctlead = y_test_a[xcount]
-    eff1d_lr_l.append(predictions_lr_l[xcount]*pctlead)
+    eff1d_l.append(predictions_l[xcount]*pctlead)
     # I should save recent effectiveness of each prediction:
     if (xcount < 5):
-      recent_eff_lr_l.append(0.0)
+      recent_eff_l.append(0.0)
     else:
-      recent_eff_lr_l.append(np.mean(eff1d_lr_l[-5:]))
+      recent_eff_l.append(np.mean(eff1d_l[-5:]))
     # I should save accuracy of each prediction
     #
-    if ((pctlead > 0) and (aprediction_lr > 0.5)):
-      acc_lr_l.append('True Positive')
-    elif ((pctlead > 0) and (aprediction_lr < 0.5)):
-      acc_lr_l.append('False Negative')
-    elif ((pctlead < 0) and (aprediction_lr > 0.5)):
-      acc_lr_l.append('False Positive')
+    if ((pctlead > 0) and (aprediction > 0.5)):
+      acc_l.append('True Positive')
+    elif ((pctlead > 0) and (aprediction < 0.5)):
+      acc_l.append('False Negative')
+    elif ((pctlead < 0) and (aprediction > 0.5)):
+      acc_l.append('False Positive')
     else:
-      acc_lr_l.append('True Negative')
+      acc_l.append('True Negative')
     #
     'end for'
   # I should save predictions, eff, acc, so I can report later.
   test_df['actual_dir']    = np.sign(test_df['pctlead'])
   #
-  test_df['prob_lr']       = prob_lr_l
-  test_df['pdir_lr']       = predictions_lr_l
-  test_df['eff1d_lr']      = eff1d_lr_l[1:]
-  test_df['recent_eff_lr'] = recent_eff_lr_l[1:]
-  if (len(test_df) - len(acc_lr_l) == 1):
+  test_df['prob']       = prob_l
+  test_df['pdir']       = predictions_l
+  test_df['eff1d']      = eff1d_l[1:]
+  test_df['recent_eff'] = recent_eff_l[1:]
+  if (len(test_df) - len(acc_l) == 1):
     # I should deal with most recent observation:
-    acc_lr_l.append('unknown')
-  test_df['accuracy_lr'] = acc_lr_l
+    acc_l.append('unknown')
+  test_df['accuracy'] = acc_l
   #
   # I should write to CSV:
   test_df.to_csv('predictions_sk_lr'+str(yr)+'.csv', float_format='%4.3f', index=False)
