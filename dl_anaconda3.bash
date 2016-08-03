@@ -12,5 +12,3 @@ bash Anaconda3-4.1.1-Linux-x86_64.sh
 conda install -c conda-forge tensorflow
 
 exit
-
-

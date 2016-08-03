@@ -128,14 +128,6 @@ for yr in range(startyr,1+finalyr):
     acc_lr_l.append('unknown')
   test_df['accuracy_lr'] = acc_lr_l
   #
-  test_df['pdir_nb']       = predictions_nb_l
-  test_df['eff1d_nb']      = eff1d_nb_l[1:]
-  test_df['recent_eff_nb'] = recent_eff_nb_l[1:]
-  if (len(test_df) - len(acc_nb_l) == 1):
-    # I should deal with most recent observation:
-    acc_nb_l.append('unknown')
-  test_df['accuracy_nb'] = acc_nb_l
-  #
   # I should write to CSV:
   test_df.to_csv('predictions'+str(yr)+'.csv', float_format='%4.3f', index=False)
 

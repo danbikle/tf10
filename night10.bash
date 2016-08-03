@@ -7,7 +7,7 @@
 . envtf.bash
 
 # I should get prices
-${TF}/wgetGSPCnight.bash
+# debug ${TF}/wgetGSPCnight.bash
 
 # I should generate features from prices:
 cd ${TFTMP}/csv
