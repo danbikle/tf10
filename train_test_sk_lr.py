@@ -45,12 +45,8 @@ for yr in range(startyr,1+finalyr):
   # I should learn from x_train_a,label_train_a:
 
   from sklearn import linear_model
-  from sklearn.naive_bayes import GaussianNB
-
   clf_lr = linear_model.LogisticRegression()
-  clf_nb = GaussianNB()
   clf_lr.fit(x_train_a, label_train_a)
-  clf_nb.fit(x_train_a, label_train_a)
 
   # Now that I have learned, I should predict:
   testf    = 'test'+str(yr)+'.csv'
@@ -64,37 +60,25 @@ for yr in range(startyr,1+finalyr):
   eff1d_lr_l       = [0.0]
   recent_eff_lr_l  = [0.0]
   acc_lr_l         = []
-  predictions_nb_l = []
-  eff1d_nb_l       = [0.0]
-  recent_eff_nb_l  = [0.0]
-  acc_nb_l         = []
   xcount           = -1
   for xoos_a in x_test_a:
     xcount        += 1 # should == 0 1st time through
     xf_a           = xoos_a.astype(float)
     xr_a           = xf_a.reshape(1, -1)
     aprediction_lr = clf_lr.predict_proba(xr_a)[0,1]
-    aprediction_nb = clf_nb.predict(xr_a)[0]
     prob_lr_l.append(aprediction_lr)
     if (aprediction_lr > 0.5):
       predictions_lr_l.append(1)  # up   prediction
     else:
       predictions_lr_l.append(-1) # down prediction
-    if (aprediction_nb == True):
-      predictions_nb_l.append(1)  # up   prediction
-    else:
-      predictions_nb_l.append(-1) # down prediction
     # I should save effectiveness of each prediction:
     pctlead = y_test_a[xcount]
     eff1d_lr_l.append(predictions_lr_l[xcount]*pctlead)
-    eff1d_nb_l.append(predictions_nb_l[xcount]*pctlead)
     # I should save recent effectiveness of each prediction:
     if (xcount < 5):
       recent_eff_lr_l.append(0.0)
-      recent_eff_nb_l.append(0.0)
     else:
       recent_eff_lr_l.append(np.mean(eff1d_lr_l[-5:]))
-      recent_eff_nb_l.append(np.mean(eff1d_nb_l[-5:]))
     # I should save accuracy of each prediction
     #
     if ((pctlead > 0) and (aprediction_lr > 0.5)):
@@ -105,15 +89,6 @@ for yr in range(startyr,1+finalyr):
       acc_lr_l.append('False Positive')
     else:
       acc_lr_l.append('True Negative')
-    #
-    if ((pctlead > 0) and (aprediction_nb == True)):
-      acc_nb_l.append('True Positive')
-    elif ((pctlead > 0) and (aprediction_nb == False)):
-      acc_nb_l.append('False Negative')
-    elif ((pctlead < 0) and (aprediction_nb == True)):
-      acc_nb_l.append('False Positive')
-    else:
-      acc_nb_l.append('True Negative')
     #
     'end for'
   # I should save predictions, eff, acc, so I can report later.
