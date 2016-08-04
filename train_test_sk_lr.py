@@ -7,21 +7,29 @@
 # Demo:
 # cd ${TFTMP}/csv
 # ${HOME}/anaconda3/bin/python ${TF}/train_test_sk_lr.py $STARTYR $ENDYR
+# tail ${TFTMP}/csv/predictions_sk_lr_2016.csv
+
+model_name = 'sk_lr'
+
+# reusable syntax:
 
 import numpy  as np
 import pandas as pd
 import pdb
-
+import tensorflow as tf
+  
 # I should check cmd line arg
 import sys
 if (len(sys.argv) < 3):
   print('Demo:')
   print('cd ${TFTMP}/csv')
-  print('${HOME}/anaconda3/bin/python ${TF}/train_test_sk_lr.py $STARTYR $ENDYR')
+  print('${HOME}/anaconda3/bin/python ${TF}/train_test_'+model_name+'.py $STARTYR $ENDYR')
   sys.exit()
 
 startyr = int(sys.argv[1])
 finalyr = int(sys.argv[2])
+class_boundry_f = 0.03 # days above this are in 'up' class.
+sess = tf.InteractiveSession()
 
 # I should create a loop which does train and test for each yr.
 for yr in range(startyr,1+finalyr):
@@ -40,70 +48,54 @@ for yr in range(startyr,1+finalyr):
   end_i      = 8
   x_train_a  = train_a[:,pctlag1_i:end_i]
   y_train_a  = train_a[:,pctlead_i]
-  train_median  = np.median(y_train_a)
-  label_train_a = y_train_a > train_median
-  # I should learn from x_train_a,label_train_a:
+  # TF wants labels to be 1-hot-encoded:
+  ytrain1h_a = np.array([[0,1] if tf else [1,0] for tf in (y_train_a > class_boundry_f)])
 
+  # [0,1] means up-observation
+  # [1,0] means down-observation
+
+  # I declare 2d Tensors.
+  # I should use 0th row of x_train_a to help shape x:
+  fnum_i  = len(x_train_a[0, :])
+  label_i = len(ytrain1h_a[0,:])
+  xvals = tf.placeholder(tf.float32, shape=[None, fnum_i], name='x-input')
+
+  testf     = 'test'+str(yr)+'.csv'
+  test_df   = pd.read_csv(testf)
+  test_a    = np.array(test_df)
+  x_test_a  = test_a[:,pctlag1_i:end_i]
+  y_test_a  = test_a[:,pctlead_i]
+  ytest1h_a = np.array([[0,1] if tf else [1,0] for tf in (y_test_a > class_boundry_f)])
+
+  #####################
+  # model specific syntax:
   from sklearn import linear_model
   clf = linear_model.LogisticRegression()
+  label_train_a = (y_train_a > class_boundry_f)
   clf.fit(x_train_a, label_train_a)
+  # Now I can predict x_test_a?
+  pdb.set_trace()
+  x_test_a[:4]
+  prob_a = clf.predict_proba(x_test_a)
+  stophere
+  #####################
 
-  # Now that I have learned, I should predict:
-  testf    = 'test'+str(yr)+'.csv'
-  test_df  = pd.read_csv(testf)
-  test_a   = np.array(test_df)
-  x_test_a = test_a[:,pctlag1_i:end_i]
-  y_test_a = test_a[:,pctlead_i]
-  label_test_a  = y_test_a > train_median
-  prob_l        = []
-  predictions_l = []
-  eff1d_l       = [0.0]
-  recent_eff_l  = [0.0]
-  acc_l            = []
-  xcount           = -1
-  for xoos_a in x_test_a:
-    xcount        += 1 # should == 0 1st time through
-    xf_a           = xoos_a.astype(float)
-    xr_a           = xf_a.reshape(1, -1)
-    aprediction = clf.predict_proba(xr_a)[0,1]
-    # Maybe I can vectorize above call?
-    prob_l.append(aprediction)
-    if (aprediction > 0.5):
-      predictions_l.append(1)  # up   prediction
-    else:
-      predictions_l.append(-1) # down prediction
-    # I should save effectiveness of each prediction:
-    pctlead = y_test_a[xcount]
-    eff1d_l.append(predictions_l[xcount]*pctlead)
-    # I should save recent effectiveness of each prediction:
-    if (xcount < 5):
-      recent_eff_l.append(0.0)
-    else:
-      recent_eff_l.append(np.mean(eff1d_l[-5:]))
-    # I should save accuracy of each prediction
-    #
-    if ((pctlead > 0) and (aprediction > 0.5)):
-      acc_l.append('True Positive')
-    elif ((pctlead > 0) and (aprediction < 0.5)):
-      acc_l.append('False Negative')
-    elif ((pctlead < 0) and (aprediction > 0.5)):
-      acc_l.append('False Positive')
-    else:
-      acc_l.append('True Negative')
-    #
-    'end for'
+  # reusable syntax:
+
+  # I only want the probability of the 'up' class:
+  prob_l        = [prob[1] for prob in prob_a]
+  prob_a        = np.array(prob_l)
+  predictions_l = [1 if tf else -1 for tf in (prob_a >= 0.5)]
+  eff1d_a       = np.array(predictions_l) * y_test_a
+  acc_a         = np.sign(eff1d_a)
   # I should save predictions, eff, acc, so I can report later.
-  test_df['actual_dir']    = np.sign(test_df['pctlead'])
-  #
+  test_df['actual_dir'] = np.sign(y_test_a)
   test_df['prob']       = prob_l
   test_df['pdir']       = predictions_l
-  test_df['eff1d']      = eff1d_l[1:]
-  test_df['recent_eff'] = recent_eff_l[1:]
-  if (len(test_df) - len(acc_l) == 1):
-    # I should deal with most recent observation:
-    acc_l.append('unknown')
-  test_df['accuracy'] = acc_l
-  #
-  # I should write to CSV:
-  test_df.to_csv('predictions_sk_lr'+str(yr)+'.csv', float_format='%4.3f', index=False)
-'bye'
+  test_df['eff1d']      = eff1d_a
+  test_df['accuracy']   = acc_a
+  test_df.to_csv('predictions_'+model_name+'_'+str(yr)+'.csv', float_format='%4.3f', index=False)  
+
+  'bye'
+  
+  

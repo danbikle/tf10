@@ -23,9 +23,9 @@ TRAINING_AMOUNT=20 #years
 ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftrGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 
 # I should learn then test using sklearn logistic regression:
-#${HOME}/anaconda3/bin/python ${TF}/train_test_sk_lr.py $STARTYR $ENDYR
+${HOME}/anaconda3/bin/python ${TF}/train_test_sk_lr.py $STARTYR $ENDYR
 
 # I should use Tensorflow:
-${HOME}/anaconda3/bin/python ${TF}/train_test_tf10.py $STARTYR $ENDYR
+echo ${HOME}/anaconda3/bin/python ${TF}/train_test_tf10.py $STARTYR $ENDYR
 
 exit
