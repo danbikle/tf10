@@ -7,6 +7,11 @@
 # Demo:
 # cd ${TFTMP}/csv
 # ${HOME}/anaconda3/bin/python ${TF}/train_test_tf10.py $STARTYR $ENDYR
+# tail ${TFTMP}/csv/predictions_tf10_2016.csv
+
+model_name = 'tf10'
+
+# reusable syntax:
 
 import numpy  as np
 import pandas as pd
@@ -18,7 +23,7 @@ import sys
 if (len(sys.argv) < 3):
   print('Demo:')
   print('cd ${TFTMP}/csv')
-  print('${HOME}/anaconda3/bin/python ${TF}/train_test_tf10.py $STARTYR $ENDYR')
+  print('${HOME}/anaconda3/bin/python ${TF}/train_test_'+model_name+'.py $STARTYR $ENDYR')
   sys.exit()
 
 startyr = int(sys.argv[1])
@@ -57,9 +62,9 @@ for yr in range(startyr,1+finalyr):
   # I should learn from x_train_a,label_train_a.
 
   xvals = tf.placeholder(tf.float32, shape=[None, fnum_i], name='x-input')
-  # debug
-  # print(sess.run(xvals+0, feed_dict={xvals: x_train_a})[:3,:2])
-  # debug
+  
+  #####################
+  # model specific syntax:
   weight1 = tf.Variable(tf.zeros([fnum_i, label_i]))
   weight0 = tf.Variable(tf.zeros([label_i]))
   yhat    = tf.nn.softmax(tf.matmul(xvals, weight1) + weight0)
@@ -71,7 +76,9 @@ for yr in range(startyr,1+finalyr):
   tf.initialize_all_variables().run()
   for i in range(100):
     train_step.run({xvals: x_train_a, yactual: ytrain1h_a})
-  # prob_sm = sess.run(yhat, feed_dict={xvals: x_train_a})
+  #####################
+
+  # reusable syntax:
   # Now that I have learned, I should predict:
   testf     = 'test'+str(yr)+'.csv'
   test_df   = pd.read_csv(testf)
@@ -96,7 +103,7 @@ for yr in range(startyr,1+finalyr):
   test_df['pdir']       = predictions_l
   test_df['eff1d']      = eff1d_a
   test_df['accuracy']   = acc_a
-  test_df.to_csv('predictions_tf10_'+str(yr)+'.csv', float_format='%4.3f', index=False)  
+  test_df.to_csv('predictions_'+model_name+'_'+str(yr)+'.csv', float_format='%4.3f', index=False)  
 
   'bye'
   
