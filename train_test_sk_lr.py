@@ -17,6 +17,7 @@ import numpy  as np
 import pandas as pd
 import pdb
 import tensorflow as tf
+from sklearn import linear_model
   
 # I should check cmd line arg
 import sys
@@ -28,9 +29,8 @@ if (len(sys.argv) < 3):
 
 startyr = int(sys.argv[1])
 finalyr = int(sys.argv[2])
-class_boundry_f = 0.03 # days above this are in 'up' class.
 sess = tf.InteractiveSession()
-
+class_boundry_f = 0.03 # days above this are in 'up' class.
 # I should create a loop which does train and test for each yr.
 for yr in range(startyr,1+finalyr):
   trainf = 'train'+str(yr)+'.csv'
@@ -47,9 +47,10 @@ for yr in range(startyr,1+finalyr):
   pctlag16_i = 7
   end_i      = 8
   x_train_a  = train_a[:,pctlag1_i:end_i]
-  y_train_a  = train_a[:,pctlead_i]
-  # TF wants labels to be 1-hot-encoded:
-  ytrain1h_a = np.array([[0,1] if tf else [1,0] for tf in (y_train_a > class_boundry_f)])
+  # sklearn can use label_train_a:
+  label_train_a = (train_a[:,pctlead_i] > class_boundry_f)
+  # But, TF wants labels to be 1-hot-encoded:
+  ytrain1h_a = np.array([[0,1] if tf else [1,0] for tf in label_train_a])
 
   # [0,1] means up-observation
   # [1,0] means down-observation
@@ -58,20 +59,18 @@ for yr in range(startyr,1+finalyr):
   # I should use 0th row of x_train_a to help shape x:
   fnum_i  = len(x_train_a[0, :])
   label_i = len(ytrain1h_a[0,:])
-  xvals = tf.placeholder(tf.float32, shape=[None, fnum_i], name='x-input')
 
   testf     = 'test'+str(yr)+'.csv'
   test_df   = pd.read_csv(testf)
   test_a    = np.array(test_df)
   x_test_a  = test_a[:,pctlag1_i:end_i]
   y_test_a  = test_a[:,pctlead_i]
-  ytest1h_a = np.array([[0,1] if tf else [1,0] for tf in (y_test_a > class_boundry_f)])
+  label_test_a = (test_a[:,pctlead_i] > class_boundry_f)
+  ytest1h_a = np.array([[0,1] if tf else [1,0] for tf in label_test_a])
 
   #####################
   # model specific syntax:
-  from sklearn import linear_model
   clf = linear_model.LogisticRegression()
-  label_train_a = (y_train_a > class_boundry_f)
   clf.fit(x_train_a, label_train_a)
   prob_a = clf.predict_proba(x_test_a)
   #####################
@@ -80,8 +79,6 @@ for yr in range(startyr,1+finalyr):
 
   # I only want the probability of the 'up' class:
   prob_l        = [prob[1] for prob in prob_a]
-  pdb.set_trace()
-  prob_l
   prob_a        = np.array(prob_l)
   predictions_l = [1 if tf else -1 for tf in (prob_a >= 0.5)]
   eff1d_a       = np.array(predictions_l) * y_test_a
