@@ -82,7 +82,7 @@ for yr in range(startyr,1+finalyr):
   train_step    = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
   # Train
   tf.initialize_all_variables().run()
-  for i in range(100):
+  for i in range(2123):
     train_step.run({xvals: x_train_a, yactual: ytrain1h_a})
   prob_a = sess.run(yhat, feed_dict={xvals: x_test_a})
   #####################
