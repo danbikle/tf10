@@ -24,6 +24,8 @@ if (len(sys.argv) < 3):
 startyr = int(sys.argv[1])
 finalyr = int(sys.argv[2])
 
+sess = tf.InteractiveSession()
+
 # I should create a loop which does train and test for each yr.
 for yr in range(startyr,1+finalyr):
   trainf = 'train'+str(yr)+'.csv'
@@ -41,12 +43,18 @@ for yr in range(startyr,1+finalyr):
   end_i      = 8
   x_train_a  = train_a[:,pctlag1_i:end_i]
   y_train_a  = train_a[:,pctlead_i]
-  train_median  = np.median(y_train_a)
-  label_train_a = y_train_a > train_median
-  # I should learn from x_train_a,label_train_a:
+  # TF wants labels to be 1-hot-encoded:
+  ytrain1h_a = np.array([[0,1] if tf else [1,0] for tf in (y_train_a > 0.03)])
+  # [0,1] means up-observation
+  # [1,0] means down-observation
 
-#  from sklearn import linear_model
-#  clf = linear_model.LogisticRegression()
-#  clf.fit(x_train_a, label_train_a)
+  # I declare 2d Tensors.
+  # I should use 0th row of x_train_a to help shape x:
+  fnum_i  = len(x_train_a[0, :])
+  label_i = len(ytrain1h_a[0,:])
+
+  # I should learn from x_train_a,label_train_a.
+
+  xvals = tf.placeholder(tf.float32, shape=[None, fnum_i], name='x-input')
 
 'bye'
