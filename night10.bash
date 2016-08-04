@@ -28,4 +28,7 @@ ${HOME}/anaconda3/bin/python ${TF}/train_test_sk_lr.py $STARTYR $ENDYR
 # I should use Tensorflow too:
 ${HOME}/anaconda3/bin/python ${TF}/train_test_tf11.py $STARTYR $ENDYR
 
+# I should report Accuracy and Effectiveness:
+${TF}/rpt_model.bash
+
 exit
