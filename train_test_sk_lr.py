@@ -73,17 +73,15 @@ for yr in range(startyr,1+finalyr):
   clf = linear_model.LogisticRegression()
   label_train_a = (y_train_a > class_boundry_f)
   clf.fit(x_train_a, label_train_a)
-  # Now I can predict x_test_a?
-  pdb.set_trace()
-  x_test_a[:4]
   prob_a = clf.predict_proba(x_test_a)
-  stophere
   #####################
 
   # reusable syntax:
 
   # I only want the probability of the 'up' class:
   prob_l        = [prob[1] for prob in prob_a]
+  pdb.set_trace()
+  prob_l
   prob_a        = np.array(prob_l)
   predictions_l = [1 if tf else -1 for tf in (prob_a >= 0.5)]
   eff1d_a       = np.array(predictions_l) * y_test_a
