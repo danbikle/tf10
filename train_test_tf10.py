@@ -85,8 +85,13 @@ for yr in range(startyr,1+finalyr):
   # I should collect predictions along with actual data.
   # softmax() gives me probabilities of all classes.
   # I only want the probability of the 'up' class:
-  prob_l = [prob[1] for prob in prob_a]
-
+  prob_l        = [prob[1] for prob in prob_a]
+  prob_a        = np.array(prob_l)
+  predictions_l = [1 if tf else -1 for tf in (prob_a >= 0.5)]
+  eff1d_a       = np.array(predictions_l) * y_test_a
+  acc_a         = np.sign(eff1d_a)
+  # I should save predictions, eff, acc, so I can report later.
+  test_df.to_csv('predictions_tf10_'+str(yr)+'.csv', float_format='%4.3f', index=False)  
 
   'bye'
   
