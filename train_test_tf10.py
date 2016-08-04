@@ -70,6 +70,9 @@ for yr in range(startyr,1+finalyr):
   tf.initialize_all_variables().run()
   for i in range(100):
     train_step.run({xvals: x_train_a, yactual: ytrain1h_a})
-
+  pdb.set_trace()
+  prob_sm = sess.run(yhat, feed_dict={xvals: x_train_a})
+  #  prob_sm = sess.run(yhat, feed_dict={xvals: x_test_a})
+  len(prob_sm)
 
   'bye'
