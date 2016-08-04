@@ -91,6 +91,11 @@ for yr in range(startyr,1+finalyr):
   eff1d_a       = np.array(predictions_l) * y_test_a
   acc_a         = np.sign(eff1d_a)
   # I should save predictions, eff, acc, so I can report later.
+  test_df['actual_dir'] = np.sign(y_test_a)
+  test_df['prob']       = prob_l
+  test_df['pdir']       = predictions_l
+  test_df['eff1d']      = eff1d_a
+  test_df['accuracy']   = acc_a
   test_df.to_csv('predictions_tf10_'+str(yr)+'.csv', float_format='%4.3f', index=False)  
 
   'bye'
