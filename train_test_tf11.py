@@ -70,6 +70,7 @@ for yr in range(startyr,1+finalyr):
 
   #####################
   # model specific syntax:
+  print('VERY Busy...')
   xvals = tf.placeholder(tf.float32, shape=[None, fnum_i], name='x-input')
   weight1 = tf.Variable(tf.zeros([fnum_i, label_i]))
   weight0 = tf.Variable(tf.zeros([label_i]))
