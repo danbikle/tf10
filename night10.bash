@@ -21,6 +21,9 @@ ENDYR=2016
 TRAINING_AMOUNT=20 #years
 ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftrGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 
+# Then, I should train models.
+# With the models, predict the test data.
+# And, collect Accuracy and Effectiveness:
 
 models='tf11 tf12 sk_lr'
 
@@ -30,6 +33,17 @@ do
 done
 
 # I should report Accuracy and Effectiveness:
-${TF}/rpt_model.bash
+# ${TF}/rpt_model.bash
+
+for MODEL in $models
+do
+  echo ooooooooooooooooooooooooooooooooooooooo
+  head -1   predictions_${MODEL}_2016.csv            > all_predictions_${MODEL}.csv
+  cat predictions_${MODEL}_????.csv | grep -v cdate >> all_predictions_${MODEL}.csv
+  echo prediction count:
+  wc -l all_predictions_${MODEL}.csv
+  python ${TF}/rpt_model.py $MODEL
+  echo ooooooooooooooooooooooooooooooooooooooo
+done
 
 exit
