@@ -71,7 +71,6 @@ for yr in range(startyr,1+finalyr):
   tf.initialize_all_variables().run()
   for i in range(100):
     train_step.run({xvals: x_train_a, yactual: ytrain1h_a})
-  pdb.set_trace()
   # prob_sm = sess.run(yhat, feed_dict={xvals: x_train_a})
   # Now that I have learned, I should predict:
   testf     = 'test'+str(yr)+'.csv'
@@ -79,17 +78,14 @@ for yr in range(startyr,1+finalyr):
   test_a    = np.array(test_df)
   x_test_a  = test_a[:,pctlag1_i:end_i]
   # I should compute predictions from x_test_a:
-  prob_sm   = sess.run(yhat, feed_dict={xvals: x_test_a})
-  pdb.set_trace()
-  prob_sm
+  prob_a    = sess.run(yhat, feed_dict={xvals: x_test_a})
   # Here is the actual data.
   y_test_a  = test_a[:,pctlead_i]
   ytest1h_a = np.array([[0,1] if tf else [1,0] for tf in (y_test_a > class_boundry_f)])
   # I should collect predictions along with actual data.
-  
-
-
-
+  # softmax() gives me probabilities of all classes.
+  # I only want the probability of the 'up' class:
+  prob_l = [prob[1] for prob in prob_a]
 
 
   'bye'
