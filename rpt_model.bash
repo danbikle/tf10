@@ -9,6 +9,7 @@
 
 cd ${TFTMP}/csv/
 
+echo ooooooooooooooooooooooooooooooooooooooo
 MODEL=tf11
 echo prediction count:
 wc -l all_predictions_${MODEL}.csv
