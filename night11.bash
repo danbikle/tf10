@@ -25,14 +25,12 @@ TRAINING_AMOUNT=20 #years
 # With the models, predict the test data.
 # And, collect Accuracy and Effectiveness:
 
-models='tf12'
+models=tf12
 
 for MODEL in $models
 do
   ${HOME}/anaconda3/bin/python ${TF}/train_test_${MODEL}.py $STARTYR $ENDYR
 done
-
-exit
 
 # I should report Accuracy and Effectiveness:
 

@@ -79,7 +79,7 @@ for yr in range(startyr,1+finalyr):
   tf.initialize_all_variables().run()
   prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a, keep_prob: 1.0})
   #####################
-  pdb.set_trace()
+
   # reusable syntax:
   # I should write Accuracy and Effectiveness to CSV file.
   # I only want the probability of the 'up' class:
