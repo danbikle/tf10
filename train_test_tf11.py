@@ -31,6 +31,7 @@ startyr = int(sys.argv[1])
 finalyr = int(sys.argv[2])
 sess = tf.InteractiveSession()
 class_boundry_f = 0.03 # days above this are in 'up' class.
+learning_rate   = 0.001
 # I should create a loop which does train and test for each yr.
 for yr in range(startyr,1+finalyr):
   trainf = 'train'+str(yr)+'.csv'
@@ -77,7 +78,8 @@ for yr in range(startyr,1+finalyr):
   # Define loss and optimizer
   yactual       = tf.placeholder(tf.float32, [None, label_i])
   cross_entropy = tf.reduce_mean(-tf.reduce_sum(yactual * tf.log(yhat), reduction_indices=[1]))
-  train_step    = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
+  #train_step    = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
+  train_step    = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
   # Train
   tf.initialize_all_variables().run()
   for i in range(100):
