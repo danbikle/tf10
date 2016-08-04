@@ -1,3 +1,7 @@
+# this script is an unused artifact.
+
+exit
+
 # train_test_tf10.py
 
 # This script should use train and test CSV data in ${TFTMP}/csv
