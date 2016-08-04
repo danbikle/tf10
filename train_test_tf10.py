@@ -59,6 +59,17 @@ for yr in range(startyr,1+finalyr):
   # debug
   # print(sess.run(xvals+0, feed_dict={xvals: x_train_a})[:3,:2])
   # debug
+  weight1 = tf.Variable(tf.zeros([fnum_i, label_i]))
+  weight0 = tf.Variable(tf.zeros([label_i]))
+  yhat    = tf.nn.softmax(tf.matmul(xvals, weight1) + weight0)
+  # Define loss and optimizer
+  yactual       = tf.placeholder(tf.float32, [None, label_i])
+  cross_entropy = tf.reduce_mean(-tf.reduce_sum(yactual * tf.log(yhat), reduction_indices=[1]))
+  train_step    = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
+  # Train
+  tf.initialize_all_variables().run()
+  for i in range(100):
+    train_step.run({xvals: x_train_a, yactual: ytrain1h_a})
 
 
   'bye'
