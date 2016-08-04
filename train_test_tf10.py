@@ -23,7 +23,7 @@ if (len(sys.argv) < 3):
 
 startyr = int(sys.argv[1])
 finalyr = int(sys.argv[2])
-
+class_boundry_f = 0.03 # days above this are in 'up' class.
 sess = tf.InteractiveSession()
 
 # I should create a loop which does train and test for each yr.
@@ -44,7 +44,8 @@ for yr in range(startyr,1+finalyr):
   x_train_a  = train_a[:,pctlag1_i:end_i]
   y_train_a  = train_a[:,pctlead_i]
   # TF wants labels to be 1-hot-encoded:
-  ytrain1h_a = np.array([[0,1] if tf else [1,0] for tf in (y_train_a > 0.03)])
+  ytrain1h_a = np.array([[0,1] if tf else [1,0] for tf in (y_train_a > class_boundry_f)])
+
   # [0,1] means up-observation
   # [1,0] means down-observation
 
@@ -71,8 +72,26 @@ for yr in range(startyr,1+finalyr):
   for i in range(100):
     train_step.run({xvals: x_train_a, yactual: ytrain1h_a})
   pdb.set_trace()
-  prob_sm = sess.run(yhat, feed_dict={xvals: x_train_a})
-  #  prob_sm = sess.run(yhat, feed_dict={xvals: x_test_a})
-  len(prob_sm)
+  # prob_sm = sess.run(yhat, feed_dict={xvals: x_train_a})
+  # Now that I have learned, I should predict:
+  testf     = 'test'+str(yr)+'.csv'
+  test_df   = pd.read_csv(testf)
+  test_a    = np.array(test_df)
+  x_test_a  = test_a[:,pctlag1_i:end_i]
+  # I should compute predictions from x_test_a:
+  prob_sm   = sess.run(yhat, feed_dict={xvals: x_test_a})
+  pdb.set_trace()
+  prob_sm
+  # Here is the actual data.
+  y_test_a  = test_a[:,pctlead_i]
+  ytest1h_a = np.array([[0,1] if tf else [1,0] for tf in (y_test_a > class_boundry_f)])
+  # I should collect predictions along with actual data.
+  
+
+
+
+
 
   'bye'
+  
+  
