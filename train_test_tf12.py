@@ -71,25 +71,12 @@ for yr in range(startyr,1+finalyr):
   #####################
   # model specific syntax:
   print(str(yr)+' VERY Busy...')
-  xvals = tf.placeholder(tf.float32, shape=[None, fnum_i], name='x-input')
-  weight1 = tf.Variable(tf.zeros([fnum_i, label_i]))
-  weight0 = tf.Variable(tf.zeros([label_i]))
-  yhat    = tf.nn.softmax(tf.matmul(xvals, weight1) + weight0)
-  # Define loss and optimizer
-  yactual       = tf.placeholder(tf.float32, [None, label_i])
-  cross_entropy = tf.reduce_mean(-tf.reduce_sum(yactual * tf.log(yhat), reduction_indices=[1]))
-  # http://www.google.com/search?q=tensorflow+GradientDescentOptimizer+vs+AdamOptimizer
-  # http://sebastianruder.com/optimizing-gradient-descent/
-  #train_step    = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
-  train_step    = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
-  # Train
-  training_steps_i = 77
-  tf.initialize_all_variables().run()
-  for i in range(training_steps_i):
-    train_step.run({xvals: x_train_a, yactual: ytrain1h_a})
-  prob_a = sess.run(yhat, feed_dict={xvals: x_test_a})
+  xvals   = tf.placeholder(tf.float32, shape=[None, fnum_i] , name='x-input')
+  yactual = tf.placeholder(tf.float32, shape=[None, label_i], name='y-input')
+  yhat    = tf.Variable([0.0,1.0])
+  prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a, keep_prob: k})
   #####################
-
+  pdb.set_trace()
   # reusable syntax:
   # I should write Accuracy and Effectiveness to CSV file.
   # I only want the probability of the 'up' class:
