@@ -56,5 +56,9 @@ for yr in range(startyr,1+finalyr):
   # I should learn from x_train_a,label_train_a.
 
   xvals = tf.placeholder(tf.float32, shape=[None, fnum_i], name='x-input')
+  # debug
+  # print(sess.run(xvals+0, feed_dict={xvals: x_train_a})[:3,:2])
+  # debug
 
-'bye'
+
+  'bye'
