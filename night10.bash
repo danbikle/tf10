@@ -33,12 +33,11 @@ do
 done
 
 # I should report Accuracy and Effectiveness:
-# ${TF}/rpt_model.bash
 
 for MODEL in $models
 do
   echo ooooooooooooooooooooooooooooooooooooooo
-  head -1   predictions_${MODEL}_2016.csv            > all_predictions_${MODEL}.csv
+  head -1 predictions_${MODEL}_2016.csv              > all_predictions_${MODEL}.csv
   cat predictions_${MODEL}_????.csv | grep -v cdate >> all_predictions_${MODEL}.csv
   echo prediction count:
   wc -l all_predictions_${MODEL}.csv
