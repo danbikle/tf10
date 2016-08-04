@@ -71,10 +71,11 @@ for yr in range(startyr,1+finalyr):
   #####################
   # model specific syntax:
   print(str(yr)+' VERY Busy...')
-  xvals   = tf.placeholder(tf.float32, shape=[None, fnum_i] , name='x-input')
-  yactual = tf.placeholder(tf.float32, shape=[None, label_i], name='y-input')
+  xvals     = tf.placeholder(tf.float32, shape=[None, fnum_i] , name='x-input')
+  yactual   = tf.placeholder(tf.float32, shape=[None, label_i], name='y-input')
+  keep_prob = tf.placeholder(tf.float32, name='probability2keep-not-drop')
   yhat    = tf.Variable([0.0,1.0])
-  prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a, keep_prob: k})
+  prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a, keep_prob: 1.0})
   #####################
   pdb.set_trace()
   # reusable syntax:
