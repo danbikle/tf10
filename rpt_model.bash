@@ -9,19 +9,17 @@
 
 cd ${TFTMP}/csv/
 
-echo ooooooooooooooooooooooooooooooooooooooo
-MODEL=tf11
-echo prediction count:
-wc -l all_predictions_${MODEL}.csv
-head -1   predictions_${MODEL}_2016.csv            > all_predictions_${MODEL}.csv
-cat predictions_${MODEL}_????.csv | grep -v cdate >> all_predictions_${MODEL}.csv
-python ${TF}/rpt_model.py $MODEL
-echo ooooooooooooooooooooooooooooooooooooooo
-MODEL=sk_lr
-echo prediction count:
-wc -l all_predictions_${MODEL}.csv
-head -1   predictions_${MODEL}_2016.csv            > all_predictions_${MODEL}.csv
-cat predictions_${MODEL}_????.csv | grep -v cdate >> all_predictions_${MODEL}.csv
-python ${TF}/rpt_model.py $MODEL
-echo ooooooooooooooooooooooooooooooooooooooo
+models='tf11 tf12 sk_lr'
+
+for MODEL in $models
+do
+  echo ooooooooooooooooooooooooooooooooooooooo
+  echo prediction count:
+  wc -l all_predictions_${MODEL}.csv
+  head -1   predictions_${MODEL}_2016.csv            > all_predictions_${MODEL}.csv
+  cat predictions_${MODEL}_????.csv | grep -v cdate >> all_predictions_${MODEL}.csv
+  python ${TF}/rpt_model.py $MODEL
+  echo ooooooooooooooooooooooooooooooooooooooo
+done
+
 exit

@@ -21,11 +21,13 @@ ENDYR=2016
 TRAINING_AMOUNT=20 #years
 ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftrGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 
-# I should learn then test using sklearn logistic regression:
-${HOME}/anaconda3/bin/python ${TF}/train_test_sk_lr.py $STARTYR $ENDYR
 
-# I should use Tensorflow too:
-#${HOME}/anaconda3/bin/python ${TF}/train_test_tf11.py $STARTYR $ENDYR
+models='tf11 tf12 sk_lr'
+
+for MODEL in $models
+do
+  ${HOME}/anaconda3/bin/python ${TF}/train_test_${MODEL}.py $STARTYR $ENDYR
+done
 
 # I should report Accuracy and Effectiveness:
 ${TF}/rpt_model.bash
