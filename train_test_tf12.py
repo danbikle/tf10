@@ -74,7 +74,8 @@ for yr in range(startyr,1+finalyr):
   xvals     = tf.placeholder(tf.float32, shape=[None, fnum_i] , name='x-input')
   yactual   = tf.placeholder(tf.float32, shape=[None, label_i], name='y-input')
   keep_prob = tf.placeholder(tf.float32, name='probability2keep-not-drop')
-  yhat      = tf.Variable([0.0,1.0])
+  yhat_l    = [[0.0, 1.0]]*len(ytest1h_a)
+  yhat      = tf.Variable(yhat_l)
   tf.initialize_all_variables().run()
   prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a, keep_prob: 1.0})
   #####################
