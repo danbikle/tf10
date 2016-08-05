@@ -83,7 +83,7 @@ for yr in range(startyr,1+finalyr):
     initial = tf.truncated_normal(shape, stddev=0.1)
     return tf.Variable(initial)
 
-  def bias_variable()shape:
+  def bias_variable(shape):
     initial = tf.constant(0.1, shape=shape)
     return tf.Variable(initial)
   
