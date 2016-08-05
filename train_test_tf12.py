@@ -74,7 +74,7 @@ for yr in range(startyr,1+finalyr):
   # https://github.com/tensorflow/tensorflow/blob/r0.10/tensorflow/examples/tutorials/mnist/mnist_with_summaries.py
   
   learning_rate = 0.001
-  max_steps_i   = 9
+  training_steps_i   = 9
   print(str(yr)+' VERY Busy...')
 
   # We can't initialize these variables to 0 - the network will get stuck.
@@ -111,16 +111,17 @@ for yr in range(startyr,1+finalyr):
   yhat_test    = tf.Variable(yhat_test_l)
   #  yhat = nn_layer(dropped, fnum_i, label_i, 'layer1', act=tf.nn.softmax)
   yhat = nn_layer(xvals, fnum_i, label_i, 'layer1', act=tf.nn.softmax)
-  yhat         = yhat_train
+  #  yhat         = yhat_train
   
   cross_entropy = -tf.reduce_mean(yactual * tf.log(yhat))
   train_step    = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
   tf.initialize_all_variables().run()
   
-  for i in range(max_steps_i):
+  for i in range(training_steps_i):
     sess.run(train_step, feed_dict={xvals: x_train_a, yactual: ytrain1h_a, keep_prob: 1.0})
 
-  prob_a = sess.run(yhat_test, feed_dict={xvals: x_test_a, yactual: ytest1h_a,  keep_prob: 1.0})
+  #  prob_a = sess.run(yhat_test, feed_dict={xvals: x_test_a, yactual: ytest1h_a,  keep_prob: 1.0})
+  prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a,  keep_prob: 1.0})
   #####################
 
   # reusable syntax:
