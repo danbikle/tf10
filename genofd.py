@@ -26,3 +26,10 @@ print('Busy...')
 
 df1  = pd.read_csv(infile)
 df1.columns = ['cdate','cp']
+
+from datetime import datetime
+
+for day_s in df1['cdate']:
+    my_dt = datetime.strptime(day_s, "%Y-%m-%d")
+    day_i = my_dt.weekday()
+
