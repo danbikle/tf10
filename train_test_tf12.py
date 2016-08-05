@@ -70,9 +70,23 @@ for yr in range(startyr,1+finalyr):
 
   #####################
   # model specific syntax:
+  # ref:
+  # https://github.com/tensorflow/tensorflow/blob/r0.10/tensorflow/examples/tutorials/mnist/mnist_with_summaries.py
+  
   learning_rate = 0.001
   max_steps_i   = 9
   print(str(yr)+' VERY Busy...')
+
+  # We can't initialize these variables to 0 - the network will get stuck.
+  def weight_variable(shape):
+    """Create a weight variable with appropriate initialization."""
+    initial = tf.truncated_normal(shape, stddev=0.1)
+    return tf.Variable(initial)
+
+  def bias_variable()shape:
+    initial = tf.constant(0.1, shape=shape)
+    return tf.Variable(initial)
+  
   def nn_layer(input_tensor, input_dim, output_dim, layer_name, act=tf.nn.relu):
     """Reusable code for making a simple neural net layer.
     It does a matrix multiply, bias add, and then uses relu to nonlinearize.
