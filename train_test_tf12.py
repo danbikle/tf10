@@ -71,6 +71,7 @@ for yr in range(startyr,1+finalyr):
   #####################
   # model specific syntax:
   learning_rate = 0.001
+  max_steps_i   = 9
   print(str(yr)+' VERY Busy...')
   xvals     = tf.placeholder(tf.float32, shape=[None, fnum_i] , name='x-input')
   yactual   = tf.placeholder(tf.float32, shape=[None, label_i], name='y-input')
@@ -80,8 +81,11 @@ for yr in range(startyr,1+finalyr):
 
   cross_entropy = -tf.reduce_mean(yactual * tf.log(yhat))
   train_step    = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
-
   tf.initialize_all_variables().run()
+  
+  for i in range(max_steps_i):
+    sess.run(train_step)
+
   prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a, keep_prob: 1.0})
   #####################
 
