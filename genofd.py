@@ -34,6 +34,13 @@ df1.columns = ['cdate','cp']
 # I should order cdate_l,cp by date ascending:
 cdate_l = list(reversed(df1['cdate'].values))
 cp_l    = list(reversed(df1['cp'].values   ))
+
+# I should work towards pctlead_a:
+cplead_l  = cp + [cp[-1]]
+cp_a      = np.array(cp)
+cplead_a  = np.array(cplead_l[1:])
+pctlead_a = 100.0 * (cplead_a - cp_a)/cp_a
+
 # syntax to study via pdb:
 for day_s in cdate_l:
     # pdb.set_trace()
@@ -54,10 +61,11 @@ woy_i_l     = [dt.strftime(day_dt,'%W')       for day_dt in date_l]
 df2 = pd.DataFrame(cdate_l)
 df2.columns = ['cdate']
 df2['cp']   = cp_l
-df2['wday'] = wday_i_l
-df2['dom']  = dom_i_l
-df2['moy']  = moy_i_l
-df2['woy']  = woy_i_l
+df2['pctlead'] = pctlead_a
+df2['wday']    = wday_i_l
+df2['dom']     = dom_i_l
+df2['moy']     = moy_i_l
+df2['woy']     = woy_i_l
 
 # I should save my work into a CSV file.
 # My input file should look something like this:
