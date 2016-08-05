@@ -73,8 +73,10 @@ for yr in range(startyr,1+finalyr):
   # ref:
   # https://github.com/tensorflow/tensorflow/blob/r0.10/tensorflow/examples/tutorials/mnist/mnist_with_summaries.py
   
-  learning_rate = 0.001
-  training_steps_i   = 9
+  learning_rate     = 0.001
+  training_steps_i  = 99
+  layer1_input_dim  = fnum_i
+  layer1_output_dim = label_i
   print(str(yr)+' VERY Busy...')
 
   # We can't initialize these variables to 0 - the network will get stuck.
@@ -105,13 +107,7 @@ for yr in range(startyr,1+finalyr):
   xvals     = tf.placeholder(tf.float32, shape=[None, fnum_i] , name='x-input')
   yactual   = tf.placeholder(tf.float32, shape=[None, label_i], name='y-input')
   keep_prob = tf.placeholder(tf.float32, name='probability2keep-not-drop')
-  yhat_train_l = [[0.0, 1.0]]*len(ytrain1h_a)
-  yhat_test_l  = [[0.0, 1.0]]*len(ytest1h_a)
-  yhat_train   = tf.Variable(yhat_train_l)
-  yhat_test    = tf.Variable(yhat_test_l)
-  #  yhat = nn_layer(dropped, fnum_i, label_i, 'layer1', act=tf.nn.softmax)
-  yhat = nn_layer(xvals, fnum_i, label_i, 'layer1', act=tf.nn.softmax)
-  #  yhat         = yhat_train
+  yhat = nn_layer(xvals, layer1_input_dim, layer1_output_dim, 'layer1', act=tf.nn.softmax)
   
   cross_entropy = -tf.reduce_mean(yactual * tf.log(yhat))
   train_step    = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
@@ -120,7 +116,6 @@ for yr in range(startyr,1+finalyr):
   for i in range(training_steps_i):
     sess.run(train_step, feed_dict={xvals: x_train_a, yactual: ytrain1h_a, keep_prob: 1.0})
 
-  #  prob_a = sess.run(yhat_test, feed_dict={xvals: x_test_a, yactual: ytest1h_a,  keep_prob: 1.0})
   prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a,  keep_prob: 1.0})
   #####################
 
