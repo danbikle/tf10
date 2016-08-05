@@ -40,5 +40,9 @@ enc.n_values_
 # The 2 says that the 0th col has 2 possible values.
 # The 3 says that the data_a[:,1] has 3 possible values.
 # The 3 says that the data_a[:,2] has 4 possible values: 0,1,2,3
-
+enc.transform([[0, 1, 1]]).toarray()
+# array([[ 1.,  0.,  0.,  1.,  0.,  0.,  1.,  0.,  0.]])
+enc.transform([[1, 2, 3]]).toarray()
+# array([[ 0.,  1.,  0.,  0.,  1.,  0.,  0.,  0.,  1.]])
+# I see that base10 numbers got converted to base2.
 'bye'
