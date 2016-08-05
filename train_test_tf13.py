@@ -74,7 +74,7 @@ for yr in range(startyr,1+finalyr):
   # https://github.com/tensorflow/tensorflow/blob/r0.10/tensorflow/examples/tutorials/mnist/mnist_with_summaries.py
   
   learning_rate     = 0.001
-  training_steps_i  = 9
+  training_steps_i  = 999
   layer1_input_dim  = fnum_i
   layer1_output_dim = fnum_i
   layer2_input_dim  = fnum_i
@@ -110,14 +110,15 @@ for yr in range(startyr,1+finalyr):
   yactual   = tf.placeholder(tf.float32, shape=[None, label_i], name='y-input')
   keep_prob = tf.placeholder(tf.float32, name='probability2keep-not-drop')
   layer1output = nn_layer(xvals, layer1_input_dim, layer1_output_dim, 'layer1', act=tf.nn.relu  )
-  yhat = nn_layer(layer1output, layer2_input_dim, layer2_output_dim, 'layer2', act=tf.nn.softmax)
+  dropped_output = tf.nn.dropout(layer1output, keep_prob)
+  yhat = nn_layer(dropped_output, layer2_input_dim, layer2_output_dim, 'layer2', act=tf.nn.softmax)
   
   cross_entropy = -tf.reduce_mean(yactual * tf.log(yhat))
   train_step    = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
   tf.initialize_all_variables().run()
   
   for i in range(training_steps_i):
-    sess.run(train_step, feed_dict={xvals: x_train_a, yactual: ytrain1h_a, keep_prob: 1.0})
+    sess.run(train_step, feed_dict={xvals: x_train_a, yactual: ytrain1h_a, keep_prob: 0.9})
 
   prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a,  keep_prob: 1.0})
   #####################

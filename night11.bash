@@ -25,7 +25,7 @@ TRAINING_AMOUNT=20 #years
 # With the models, predict the test data.
 # And, collect Accuracy and Effectiveness:
 
-models=tf12
+models=tf13
 
 for MODEL in $models
 do
