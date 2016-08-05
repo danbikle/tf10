@@ -38,12 +38,18 @@ for day_s in df1['cdate']:
     weekday_i = my_dt.weekday()         # Monday is 0
     wday_i    = dt.strftime(my_dt,'%w') # Monday is 1
     dom_i     = dt.strftime(my_dt,'%-d') # day of month
+    moy_i     = dt.strftime(my_dt,'%-m') # month of year 1 through 12
+    woy_i     = dt.strftime(my_dt,'%W')  # week of year
 date_l      = [dt.strptime(day_s, "%Y-%m-%d") for day_s in df1['cdate']]
 weekday_i_l = [day_dt.weekday()               for day_dt in date_l]
 wday_i_l    = [dt.strftime(day_dt,'%w')       for day_dt in date_l]
 dom_i_l     = [dt.strftime(day_dt,'%-d')      for day_dt in date_l]
+moy_i_l     = [dt.strftime(day_dt,'%-m')      for day_dt in date_l]
+woy_i_l     = [dt.strftime(day_dt,'%W')       for day_dt in date_l]
 print(df1.head())
 print(weekday_i_l[:11])
 print(wday_i_l[:11])
 print(dom_i_l[:11])
+print(moy_i_l[:11])
+print(woy_i_l[:11])
 
