@@ -21,4 +21,8 @@ for day_s in days_l:
     day_i = my_dt.weekday()
     print(day_s+' gives:')
     print(day_i)
+
+days_dt_l = [datetime.datetime.strptime(day_s, "%Y-%m-%d") for day_s in days_l]
+days_i_l  = [day_dt.weekday() for day_dt in days_dt_l]
+print(days_i_l)
 'bye'
