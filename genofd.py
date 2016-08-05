@@ -31,25 +31,40 @@ print('Busy...')
 df1 = pd.read_csv(infile)
 df1.columns = ['cdate','cp']
 
-
-
-for day_s in df1['cdate']:
+# I should order cdate_l,cp by date ascending:
+cdate_l = list(reversed(df1['cdate'].values))
+cp_l    = list(reversed(df1['cp'].values   ))
+# syntax to study via pdb:
+for day_s in cdate_l:
+    # pdb.set_trace()
     my_dt     = dt.strptime(day_s, "%Y-%m-%d")
     weekday_i = my_dt.weekday()         # Monday is 0
     wday_i    = dt.strftime(my_dt,'%w') # Monday is 1
     dom_i     = dt.strftime(my_dt,'%-d') # day of month
     moy_i     = dt.strftime(my_dt,'%-m') # month of year 1 through 12
     woy_i     = dt.strftime(my_dt,'%W')  # week of year
-date_l      = [dt.strptime(day_s, "%Y-%m-%d") for day_s in df1['cdate']]
+# syntax I actually use:
+date_l      = [dt.strptime(day_s, "%Y-%m-%d") for day_s in cdate_l]
 weekday_i_l = [day_dt.weekday()               for day_dt in date_l]
 wday_i_l    = [dt.strftime(day_dt,'%w')       for day_dt in date_l]
 dom_i_l     = [dt.strftime(day_dt,'%-d')      for day_dt in date_l]
 moy_i_l     = [dt.strftime(day_dt,'%-m')      for day_dt in date_l]
 woy_i_l     = [dt.strftime(day_dt,'%W')       for day_dt in date_l]
-print(df1.head())
-print(weekday_i_l[:11])
-print(wday_i_l[:11])
-print(dom_i_l[:11])
-print(moy_i_l[:11])
-print(woy_i_l[:11])
 
+df2 = pd.DataFrame(cdate_l)
+df2.columns = ['cdate']
+df2['cp']   = cp_l
+df2['wday'] = wday_i_l
+df2['dom']  = dom_i_l
+df2['moy']  = moy_i_l
+df2['woy']  = woy_i_l
+
+# I should save my work into a CSV file.
+# My input file should look something like this:
+# GSPC2.csv
+# I should save my work as something like this:
+# ftr_ofdGSPC2.csv
+df2.to_csv('ftr_ofd'+infile, float_format='%4.3f', index=False)
+print('Done...')
+
+# done
