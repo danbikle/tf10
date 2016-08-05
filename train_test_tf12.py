@@ -9,6 +9,8 @@
 # ${HOME}/anaconda3/bin/python ${TF}/train_test_tf12.py $STARTYR $ENDYR
 # tail ${TFTMP}/csv/predictions_tf12_2016.csv
 
+# This script builds a simple NN which should give similar results as Logistic Regression.
+
 model_name = 'tf12'
 
 # reusable syntax:
@@ -74,7 +76,7 @@ for yr in range(startyr,1+finalyr):
   # https://github.com/tensorflow/tensorflow/blob/r0.10/tensorflow/examples/tutorials/mnist/mnist_with_summaries.py
   
   learning_rate     = 0.001
-  training_steps_i  = 99
+  training_steps_i  = 2123
   layer1_input_dim  = fnum_i
   layer1_output_dim = label_i
   print(str(yr)+' VERY Busy...')
