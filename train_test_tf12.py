@@ -73,6 +73,21 @@ for yr in range(startyr,1+finalyr):
   learning_rate = 0.001
   max_steps_i   = 9
   print(str(yr)+' VERY Busy...')
+  def nn_layer(input_tensor, input_dim, output_dim, layer_name, act=tf.nn.relu):
+    """Reusable code for making a simple neural net layer.
+    It does a matrix multiply, bias add, and then uses relu to nonlinearize.
+    And adds a number of summary ops.
+    """
+    # layer_name should be used in later version.
+    # I should hold the state of the weights for the layer.
+    weights     = weight_variable([input_dim, output_dim])
+    biases      = bias_variable([output_dim])    
+    preactivate = tf.matmul(input_tensor, weights) + biases
+    # I should use act() passed in via arg.
+    # Default: act=tf.nn.relu
+    activations = act(preactivate, 'activation')
+    return activations
+  
   xvals     = tf.placeholder(tf.float32, shape=[None, fnum_i] , name='x-input')
   yactual   = tf.placeholder(tf.float32, shape=[None, label_i], name='y-input')
   keep_prob = tf.placeholder(tf.float32, name='probability2keep-not-drop')
@@ -80,7 +95,10 @@ for yr in range(startyr,1+finalyr):
   yhat_test_l  = [[0.0, 1.0]]*len(ytest1h_a)
   yhat_train   = tf.Variable(yhat_train_l)
   yhat_test    = tf.Variable(yhat_test_l)
+  #  yhat = nn_layer(dropped, fnum_i, label_i, 'layer1', act=tf.nn.softmax)
+  yhat = nn_layer(xvals, fnum_i, label_i, 'layer1', act=tf.nn.softmax)
   yhat         = yhat_train
+  
   cross_entropy = -tf.reduce_mean(yactual * tf.log(yhat))
   train_step    = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
   tf.initialize_all_variables().run()
