@@ -84,9 +84,9 @@ for yr in range(startyr,1+finalyr):
   tf.initialize_all_variables().run()
   
   for i in range(max_steps_i):
-    sess.run(train_step)
+    sess.run(train_step, feed_dict={xvals: x_train_a, yactual: ytrain1h_a, keep_prob: 1.0})
 
-  prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a, keep_prob: 1.0})
+  prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a,  keep_prob: 1.0})
   #####################
 
   # reusable syntax:
