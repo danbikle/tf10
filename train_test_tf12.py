@@ -70,12 +70,17 @@ for yr in range(startyr,1+finalyr):
 
   #####################
   # model specific syntax:
+  learning_rate = 0.001
   print(str(yr)+' VERY Busy...')
   xvals     = tf.placeholder(tf.float32, shape=[None, fnum_i] , name='x-input')
   yactual   = tf.placeholder(tf.float32, shape=[None, label_i], name='y-input')
   keep_prob = tf.placeholder(tf.float32, name='probability2keep-not-drop')
   yhat_l    = [[0.0, 1.0]]*len(ytest1h_a)
   yhat      = tf.Variable(yhat_l)
+
+  cross_entropy = -tf.reduce_mean(yactual * tf.log(yhat))
+  train_step    = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
+
   tf.initialize_all_variables().run()
   prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a, keep_prob: 1.0})
   #####################
