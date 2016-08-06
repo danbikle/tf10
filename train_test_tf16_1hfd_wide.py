@@ -45,8 +45,6 @@ for yr in range(startyr,1+finalyr):
   trainf   = 'train'+str(yr)+'.csv' # Data should be in this file.
   train_df = pd.read_csv(trainf)
 
-
-
   # I should 1hot-encode:
   wday_l = []
   for wday_i in train_df['wday']:
@@ -79,6 +77,10 @@ for yr in range(startyr,1+finalyr):
   print(dom_l[:3])
   print(moy_l[:3])
   print(woy_l[:3])
+
+  # I should hstack em
+  wide_a = np.hstack((wday_l,moy_l))
+  print(wide_a[:3])
   
   train_a  = np.array(train_df)     # Data should be in this Array.
   # I should declare some integers to help me navigate the Arrays.
