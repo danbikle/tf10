@@ -12,8 +12,8 @@
 
 # I should generate features from prices:
 cd ${TFTMP}/csv
-#${HOME}/anaconda3/bin/python ${TF}/genf.py   GSPC2.csv
-#${HOME}/anaconda3/bin/python ${TF}/genofd.py GSPC2.csv
+${HOME}/anaconda3/bin/python ${TF}/genf.py   GSPC2.csv
+${HOME}/anaconda3/bin/python ${TF}/genofd.py GSPC2.csv
 
 # # I should merge them:
 cat ftrGSPC2.csv                                         > lhs.csv
@@ -26,8 +26,7 @@ STARTYR=1981
 ENDYR=2016
 TRAINING_AMOUNT=20 #years
 
-# ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofd_wideGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
-
+${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofd_wideGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 
 # Then, I should train models.
 # With the models, predict the test data.

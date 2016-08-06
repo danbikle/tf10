@@ -74,7 +74,8 @@ for yr in range(startyr,1+finalyr):
     woy_l.append(tmp_l)
 
   # I should hstack em for x_train_a
-  wide_a = np.hstack((wday_l,dom_l,moy_l,woy_l))
+  train_wide_a = np.hstack((wday_l,dom_l,moy_l,woy_l))
+  print(train_wide_a.shape)
   
   train_a  = np.array(train_df)     # Data should be in this Array.
   # I should declare some integers to help me navigate the Arrays.
@@ -91,7 +92,8 @@ for yr in range(startyr,1+finalyr):
   moy_i  = 10
   woy_i  = 11
   end_i  = 12
-  x_train_a = np.hstack((train_a[:,pctlag1_i:wday_i], wide_a)) # Machine should learn from this.
+  x_train_a = np.hstack((train_a[:,pctlag1_i:wday_i], train_wide_a)) # Machine should learn from this.
+  print(x_train_a.shape)
 
   # sklearn can use label_train_a:
   label_train_a = (train_a[:,pctlead_i] > class_boundry_f) # And this too.
@@ -110,38 +112,40 @@ for yr in range(startyr,1+finalyr):
   
   # I should 1hot-encode:
   wday_l = []
-  for wday_i in test_df['wday']:
+  for idx_i in test_df['wday']:
     tmp_l = [0] * int(1+np.max(train_df['wday']))
-    tmp_l[wday_i] = 1
+    tmp_l[idx_i] = 1
     wday_l.append(tmp_l)
 
   # I should 1hot-encode:
   dom_l = []
-  for dom_i in test_df['dom']:
+  for idx_i in test_df['dom']:
     tmp_l = [0] * int(1+np.max(train_df['dom']))
-    tmp_l[dom_i] = 1
+    tmp_l[idx_i] = 1
     dom_l.append(tmp_l)
 
   # I should 1hot-encode:
   moy_l = []
-  for moy_i in test_df['moy']:
+  for idx_i in test_df['moy']:
     tmp_l = [0] * int(1+np.max(train_df['moy']))
-    tmp_l[moy_i] = 1
+    tmp_l[idx_i] = 1
     moy_l.append(tmp_l)
 
   # I should 1hot-encode:
   woy_l = []
-  for woy_i in test_df['woy']:
+  for idx_i in test_df['woy']:
     tmp_l = [0] * int(1+np.max(train_df['woy']))
-    tmp_l[woy_i] = 1
+    tmp_l[idx_i] = 1
     woy_l.append(tmp_l)
 
   # I should hstack em for x_test_a
-  wide_a   = np.hstack((wday_l,dom_l,moy_l,woy_l))
-
+  test_wide_a   = np.hstack((wday_l,dom_l,moy_l,woy_l))
+  print(test_wide_a.shape)
+  
   test_a   = np.array(test_df)
-  x_test_a = np.hstack((test_a[:,pctlag1_i:wday_i], wide_a)) # Machine should test this.
-
+  x_test_a = np.hstack((test_a[:,pctlag1_i:wday_i], test_wide_a)) # Machine should test this.
+  print(x_test_a.shape)
+  
   y_test_a  = test_a[:,pctlead_i]
   label_test_a = (test_a[:,pctlead_i] > class_boundry_f)
   ytest1h_a = np.array([[0,1] if tf else [1,0] for tf in label_test_a])
@@ -152,7 +156,7 @@ for yr in range(startyr,1+finalyr):
   # https://github.com/tensorflow/tensorflow/blob/r0.10/tensorflow/examples/tutorials/mnist/mnist_with_summaries.py
   
   learning_rate     = 0.001
-  training_steps_i  = 2001
+  training_steps_i  = 20
   layer1_input_dim  = fnum_i
   layer1_output_dim = fnum_i
   layer2_input_dim  = fnum_i
@@ -197,7 +201,7 @@ for yr in range(startyr,1+finalyr):
   
   for i in range(training_steps_i):
     sess.run(train_step, feed_dict={xvals: x_train_a, yactual: ytrain1h_a, keep_prob: 0.9})
-
+  pdb.set_trace()
   prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a,  keep_prob: 1.0})
 
   #####################
