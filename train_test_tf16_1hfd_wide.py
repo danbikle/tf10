@@ -72,15 +72,9 @@ for yr in range(startyr,1+finalyr):
     tmp_l = [0] * int(1+np.max(train_df['woy']))
     tmp_l[woy_i] = 1
     woy_l.append(tmp_l)
-  pdb.set_trace()
-  print(wday_l[:3])
-  print(dom_l[:3])
-  print(moy_l[:3])
-  print(woy_l[:3])
 
-  # I should hstack em
+  # I should hstack em for x_train_a
   wide_a = np.hstack((wday_l,dom_l,moy_l,woy_l))
-  print(wide_a[:3])
   
   train_a  = np.array(train_df)     # Data should be in this Array.
   # I should declare some integers to help me navigate the Arrays.
@@ -98,7 +92,7 @@ for yr in range(startyr,1+finalyr):
   woy_i  = 11
   end_i  = 12
   x_train_a = np.hstack((train_a[:,pctlag1_i:wday_i], wide_a)) # Machine should learn from this.
-  pdb.set_trace()
+
   # sklearn can use label_train_a:
   label_train_a = (train_a[:,pctlead_i] > class_boundry_f) # And this too.
   # But, TF wants labels to be 1-hot-encoded:
@@ -113,8 +107,41 @@ for yr in range(startyr,1+finalyr):
   # The test data should help me gauge Accuracy and Effectiveness:
   testf     = 'test'+str(yr)+'.csv' # Data should be in this file.
   test_df   = pd.read_csv(testf)
-  test_a    = np.array(test_df)
-  x_test_a  = test_a[:,pctlag1_i:end_i]
+  
+  # I should 1hot-encode:
+  wday_l = []
+  for wday_i in test_df['wday']:
+    tmp_l = [0] * int(1+np.max(train_df['wday']))
+    tmp_l[wday_i] = 1
+    wday_l.append(tmp_l)
+
+  # I should 1hot-encode:
+  dom_l = []
+  for dom_i in test_df['dom']:
+    tmp_l = [0] * int(1+np.max(train_df['dom']))
+    tmp_l[dom_i] = 1
+    dom_l.append(tmp_l)
+
+  # I should 1hot-encode:
+  moy_l = []
+  for moy_i in test_df['moy']:
+    tmp_l = [0] * int(1+np.max(train_df['moy']))
+    tmp_l[moy_i] = 1
+    moy_l.append(tmp_l)
+
+  # I should 1hot-encode:
+  woy_l = []
+  for woy_i in test_df['woy']:
+    tmp_l = [0] * int(1+np.max(train_df['woy']))
+    tmp_l[woy_i] = 1
+    woy_l.append(tmp_l)
+
+  # I should hstack em for x_test_a
+  wide_a   = np.hstack((wday_l,dom_l,moy_l,woy_l))
+
+  test_a   = np.array(test_df)
+  x_test_a = np.hstack((test_a[:,pctlag1_i:wday_i], wide_a)) # Machine should test this.
+
   y_test_a  = test_a[:,pctlead_i]
   label_test_a = (test_a[:,pctlead_i] > class_boundry_f)
   ytest1h_a = np.array([[0,1] if tf else [1,0] for tf in label_test_a])
