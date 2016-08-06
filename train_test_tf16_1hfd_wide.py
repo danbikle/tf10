@@ -79,7 +79,7 @@ for yr in range(startyr,1+finalyr):
   print(woy_l[:3])
 
   # I should hstack em
-  wide_a = np.hstack((wday_l,moy_l))
+  wide_a = np.hstack((wday_l,dom_l,moy_l,woy_l))
   print(wide_a[:3])
   
   train_a  = np.array(train_df)     # Data should be in this Array.
@@ -97,8 +97,8 @@ for yr in range(startyr,1+finalyr):
   moy_i  = 10
   woy_i  = 11
   end_i  = 12
-  x_train_a = train_a[:,pctlag1_i:end_i] # Machine should learn from this.
-  
+  x_train_a = np.hstack((train_a[:,pctlag1_i:wday_i], wide_a)) # Machine should learn from this.
+  pdb.set_trace()
   # sklearn can use label_train_a:
   label_train_a = (train_a[:,pctlead_i] > class_boundry_f) # And this too.
   # But, TF wants labels to be 1-hot-encoded:
