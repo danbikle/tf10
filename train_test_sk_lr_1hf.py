@@ -86,9 +86,6 @@ for yr in range(startyr,1+finalyr):
   #  x_test_a  = test_a[:,pctlag1_i:end_i]
   x_test_o_a  = test_a[:,wday_i:end_i] # Ordinal features
   # I should test using 1hot-features:
-  pdb.set_trace()
-  enc = sklearn.preprocessing.OneHotEncoder()
-  enc.fit(x_test_o_a)
   x_test_a = enc.transform(x_test_o_a).toarray() # My encoded features.
   y_test_a  = test_a[:,pctlead_i]
   label_test_a = (test_a[:,pctlead_i] > class_boundry_f)
@@ -98,6 +95,7 @@ for yr in range(startyr,1+finalyr):
   # model specific syntax:
   clf = linear_model.LogisticRegression()
   clf.fit(x_train_a, label_train_a)
+  pdb.set_trace()
   prob_a = clf.predict_proba(x_test_a)
   #####################
 
