@@ -1,3 +1,7 @@
+stophereNow
+
+This script is an artifact I should not use this script
+
 # gen1hf.py
 
 # This script should generate 1hot-encoded features from dates.
@@ -74,6 +78,13 @@ enc = OneHotEncoder()
 enc.fit(ofd_a)
 pdb.set_trace()
 enc.n_values_
+# I should encode now:
+enc.transform(ofd_a[:3]).toarray()
+
+stopherenow
+
+# I should do the encoding by the script which reads the csv.
+# Not here.
 
 # I should save my work into a CSV file.
 # My input file should look something like this:
