@@ -75,7 +75,6 @@ for yr in range(startyr,1+finalyr):
 
   # I should hstack em for x_train_a
   train_wide_a = np.hstack((wday_l,dom_l,moy_l,woy_l))
-  print(train_wide_a.shape)
   
   train_a  = np.array(train_df)     # Data should be in this Array.
   # I should declare some integers to help me navigate the Arrays.
@@ -93,7 +92,6 @@ for yr in range(startyr,1+finalyr):
   woy_i  = 11
   end_i  = 12
   x_train_a = np.hstack((train_a[:,pctlag1_i:wday_i], train_wide_a)) # Machine should learn from this.
-  print(x_train_a.shape)
 
   # sklearn can use label_train_a:
   label_train_a = (train_a[:,pctlead_i] > class_boundry_f) # And this too.
@@ -140,11 +138,9 @@ for yr in range(startyr,1+finalyr):
 
   # I should hstack em for x_test_a
   test_wide_a   = np.hstack((wday_l,dom_l,moy_l,woy_l))
-  print(test_wide_a.shape)
   
   test_a   = np.array(test_df)
   x_test_a = np.hstack((test_a[:,pctlag1_i:wday_i], test_wide_a)) # Machine should test this.
-  print(x_test_a.shape)
   
   y_test_a  = test_a[:,pctlead_i]
   label_test_a = (test_a[:,pctlead_i] > class_boundry_f)
@@ -156,7 +152,7 @@ for yr in range(startyr,1+finalyr):
   # https://github.com/tensorflow/tensorflow/blob/r0.10/tensorflow/examples/tutorials/mnist/mnist_with_summaries.py
   
   learning_rate     = 0.001
-  training_steps_i  = 20
+  training_steps_i  = 2123
   layer1_input_dim  = fnum_i
   layer1_output_dim = fnum_i
   layer2_input_dim  = fnum_i
