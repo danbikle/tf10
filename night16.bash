@@ -16,11 +16,9 @@ ${HOME}/anaconda3/bin/python ${TF}/genf.py   GSPC2.csv
 ${HOME}/anaconda3/bin/python ${TF}/genofd.py GSPC2.csv
 
 # I should merge them:
-ls -ltr ft*csv
-head ftrGSPC2.csv        > lhs.csv
-head ftrGSPC2.csv
-head ftr_ofdGSPC2.csv|awk -F, '{print $4","$5","$6","$7}'    > rhs.csv
-head ftr_ofdGSPC2.csv
+cat ftrGSPC2.csv                                         > lhs.csv
+cat ftr_ofdGSPC2.csv|awk -F, '{print $4","$5","$6","$7}' > rhs.csv
+
 paste -d, lhs.csv rhs.csv    > ftr_ofd_wideGSPC2.csv
 head ftr_ofd_wideGSPC2.csv
 exit
