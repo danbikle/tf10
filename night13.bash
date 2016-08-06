@@ -13,7 +13,7 @@
 # I should generate features from prices:
 cd ${TFTMP}/csv
 #${HOME}/anaconda3/bin/python ${TF}/genf.py GSPC2.csv
-${HOME}/anaconda3/bin/python ${TF}/genofd.py GSPC2.csv
+# debug ${HOME}/anaconda3/bin/python ${TF}/genofd.py GSPC2.csv
 
 # Next I generate training data CSV files:
 
@@ -21,19 +21,20 @@ STARTYR=1981
 ENDYR=2016
 TRAINING_AMOUNT=20 #years
 #${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftrGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
-${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofdGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
+# debug ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofdGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 
 # Then, I should train models.
 # With the models, predict the test data.
 # And, collect Accuracy and Effectiveness:
 
 models=sk_lr_1hf
-exit
 
 for MODEL in $models
 do
   ${HOME}/anaconda3/bin/python ${TF}/train_test_${MODEL}.py $STARTYR $ENDYR
 done
+
+exit
 
 # I should report Accuracy and Effectiveness:
 

@@ -64,10 +64,9 @@ for yr in range(startyr,1+finalyr):
   #x_train_a  = train_a[:,pctlag1_i:end_i] # Machine should learn from this.
   x_train_o_a  = train_a[:,wday_i:end_i] # Ordinal features.
   # I should 1hot-encode the ordinal features:
-  pdb.set_trace()
   enc = sklearn.preprocessing.OneHotEncoder()
-  enc.fit(ofd_a)
-  x_train_a = enc.transform(x_train_o_a).toarray()
+  enc.fit(x_train_o_a)
+  x_train_a = enc.transform(x_train_o_a).toarray() # My encoded features.
   
   # sklearn can use label_train_a:
   label_train_a = (train_a[:,pctlead_i] > class_boundry_f) # And this too.
@@ -85,7 +84,12 @@ for yr in range(startyr,1+finalyr):
   test_df   = pd.read_csv(testf)
   test_a    = np.array(test_df)
   #  x_test_a  = test_a[:,pctlag1_i:end_i]
-  x_test_a  = test_a[:,wday_i:end_i]
+  x_test_o_a  = test_a[:,wday_i:end_i] # Ordinal features
+  # I should test using 1hot-features:
+  pdb.set_trace()
+  enc = sklearn.preprocessing.OneHotEncoder()
+  enc.fit(x_test_o_a)
+  x_test_a = enc.transform(x_test_o_a).toarray() # My encoded features.
   y_test_a  = test_a[:,pctlead_i]
   label_test_a = (test_a[:,pctlead_i] > class_boundry_f)
   ytest1h_a = np.array([[0,1] if tf else [1,0] for tf in label_test_a])
