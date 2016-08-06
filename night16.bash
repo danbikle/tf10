@@ -20,7 +20,6 @@ cat ftrGSPC2.csv                                         > lhs.csv
 cat ftr_ofdGSPC2.csv|awk -F, '{print $4","$5","$6","$7}' > rhs.csv
 paste -d, lhs.csv rhs.csv    > ftr_ofd_wideGSPC2.csv
 head ftr_ofd_wideGSPC2.csv
-exit
 
 # Next I generate training data CSV files:
 
@@ -28,8 +27,10 @@ STARTYR=1981
 ENDYR=2016
 TRAINING_AMOUNT=20 #years
 #${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftrGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
-# debug ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofdGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
+#${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofdGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
+${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofd_wideGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 
+exit
 # Then, I should train models.
 # With the models, predict the test data.
 # And, collect Accuracy and Effectiveness:
