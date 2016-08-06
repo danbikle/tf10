@@ -14,7 +14,7 @@
 cd ${TFTMP}/csv
 #${HOME}/anaconda3/bin/python ${TF}/genf.py GSPC2.csv
 ${HOME}/anaconda3/bin/python ${TF}/genofd.py GSPC2.csv
-
+exit
 # Next I generate training data CSV files:
 
 STARTYR=1981
