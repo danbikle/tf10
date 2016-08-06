@@ -36,7 +36,7 @@ cdate_l = list(reversed(df1['cdate'].values))
 cp_l    = list(reversed(df1['cp'].values   ))
 
 # I should work towards pctlead_a:
-cplead_l  = cp + [cp[-1]]
+cplead_l  = cp_l + [cp_l[-1]]
 cp_a      = np.array(cp_l)
 cplead_a  = np.array(cplead_l[1:])
 pctlead_a = 100.0 * (cplead_a - cp_a)/cp_a
