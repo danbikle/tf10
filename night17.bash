@@ -12,10 +12,10 @@
 
 # I should generate features from prices:
 cd ${TFTMP}/csv
-${HOME}/anaconda3/bin/python ${TF}/genf.py   GSPC2.csv
-${HOME}/anaconda3/bin/python ${TF}/genofd.py GSPC2.csv
+#${HOME}/anaconda3/bin/python ${TF}/genf.py   GSPC2.csv
+#${HOME}/anaconda3/bin/python ${TF}/genofd.py GSPC2.csv
 
-# I should merge them:
+# # I should merge them:
 cat ftrGSPC2.csv                                         > lhs.csv
 cat ftr_ofdGSPC2.csv|awk -F, '{print $4","$5","$6","$7}' > rhs.csv
 paste -d, lhs.csv rhs.csv    > ftr_ofd_wideGSPC2.csv
@@ -25,9 +25,9 @@ paste -d, lhs.csv rhs.csv    > ftr_ofd_wideGSPC2.csv
 STARTYR=1981
 ENDYR=2016
 TRAINING_AMOUNT=20 #years
-#${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftrGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
-#${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofdGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
-${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofd_wideGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
+
+# ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofd_wideGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
+
 
 # Then, I should train models.
 # With the models, predict the test data.
@@ -39,7 +39,7 @@ for MODEL in $models
 do
   ${HOME}/anaconda3/bin/python ${TF}/train_test_${MODEL}.py $STARTYR $ENDYR
 done
-
+exit
 # I should report Accuracy and Effectiveness:
 
 for MODEL in $models

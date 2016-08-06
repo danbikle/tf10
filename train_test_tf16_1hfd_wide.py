@@ -44,12 +44,14 @@ learning_rate   = 0.001
 for yr in range(startyr,1+finalyr):
   trainf   = 'train'+str(yr)+'.csv' # Data should be in this file.
   train_df = pd.read_csv(trainf)
+  # I should 1hot-encode:
+  wday_l = []
+  for wday_i in train_df['wday']:
+    tmp_l = [0] * 5
+    tmp_l[wday_i-1] = 1
+    wday_l.append(tmp_l)
   pdb.set_trace()
-  some_l = [0,1] * len(train_df)
-  some_l[:9]
-  # How to transfrom some_l into 2 cols?
-
-
+  wday_l[:4]
   train_a  = np.array(train_df)     # Data should be in this Array.
   # I should declare some integers to help me navigate the Arrays.
   cdate_i    = 0
