@@ -44,14 +44,46 @@ learning_rate   = 0.001
 for yr in range(startyr,1+finalyr):
   trainf   = 'train'+str(yr)+'.csv' # Data should be in this file.
   train_df = pd.read_csv(trainf)
+
+  pdb.set_trace()
+  # I should find maxs
+  np.max(train_df['wday'])
+  np.max(train_df['dom'])
+  np.max(train_df['moy'])
+  np.max(train_df['woy'])
   # I should 1hot-encode:
   wday_l = []
   for wday_i in train_df['wday']:
-    tmp_l = [0] * 5
+    tmp_l = [0] * np.max(train_df['wday'])
     tmp_l[wday_i-1] = 1
     wday_l.append(tmp_l)
-  pdb.set_trace()
-  wday_l[:4]
+
+  # I should 1hot-encode:
+  dom_l = []
+  for dom_i in train_df['dom']:
+    tmp_l = [0] * np.max(train_df['dom'])
+    tmp_l[dom_i-1] = 1
+    dom_l.append(tmp_l)
+
+  # I should 1hot-encode:
+  moy_l = []
+  for moy_i in train_df['moy']:
+    tmp_l = [0] * np.max(train_df['moy'])
+    tmp_l[moy_i-1] = 1
+    moy_l.append(tmp_l)
+
+  # I should 1hot-encode:
+  woy_l = []
+  for woy_i in train_df['woy']:
+    tmp_l = [0] * np.max(train_df['woy'])
+    tmp_l[woy_i-1] = 1
+    woy_l.append(tmp_l)
+
+  wday_l[:3]
+  dom_l[:3]
+  moy_l[:3]
+  woy_l[:3]
+  
   train_a  = np.array(train_df)     # Data should be in this Array.
   # I should declare some integers to help me navigate the Arrays.
   cdate_i    = 0
