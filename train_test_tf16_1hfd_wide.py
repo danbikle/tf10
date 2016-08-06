@@ -201,7 +201,6 @@ for yr in range(startyr,1+finalyr):
   
   for i in range(training_steps_i):
     sess.run(train_step, feed_dict={xvals: x_train_a, yactual: ytrain1h_a, keep_prob: 0.9})
-  pdb.set_trace()
   prob_a = sess.run(yhat, feed_dict={xvals: x_test_a, yactual: ytest1h_a,  keep_prob: 1.0})
 
   #####################
