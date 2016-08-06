@@ -14,7 +14,7 @@
 cd ${TFTMP}/csv
 #${HOME}/anaconda3/bin/python ${TF}/genf.py GSPC2.csv
 ${HOME}/anaconda3/bin/python ${TF}/genofd.py GSPC2.csv
-exit
+
 # Next I generate training data CSV files:
 
 STARTYR=1981
@@ -22,7 +22,7 @@ ENDYR=2016
 TRAINING_AMOUNT=20 #years
 #${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftrGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofdGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
-
+exit
 # Then, I should train models.
 # With the models, predict the test data.
 # And, collect Accuracy and Effectiveness:

@@ -27,3 +27,9 @@ print(str(np.round(100.0 * len(my_df[pred]) / len(my_df))) + '%')
 
 print('Effectiveness sum is:')
 print(np.round(np.sum(my_df['eff1d'])))
+
+print('Long Only Accuracy sum is:')
+print(np.round(np.sum(np.sign(my_df['pctlead']))))
+
+print('Long Only Effectiveness sum is:')
+print(np.round(np.sum(my_df['pctlead'])))
