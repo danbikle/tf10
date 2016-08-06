@@ -8,7 +8,7 @@
 . envtf.bash
 
 # I should get prices
-# debug ${TF}/wgetGSPCnight.bash
+${TF}/wgetGSPCnight.bash
 
 # I should generate features from prices:
 cd ${TFTMP}/csv
@@ -18,7 +18,7 @@ ${HOME}/anaconda3/bin/python ${TF}/genf.py GSPC2.csv
 
 STARTYR=1981
 ENDYR=2016
-TRAINING_AMOUNT=20 #years
+TRAINING_AMOUNT=30 #years
 ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftrGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 
 # Then, I should train models.
