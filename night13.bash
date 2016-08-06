@@ -34,8 +34,6 @@ do
   ${HOME}/anaconda3/bin/python ${TF}/train_test_${MODEL}.py $STARTYR $ENDYR
 done
 
-exit
-
 # I should report Accuracy and Effectiveness:
 
 for MODEL in $models

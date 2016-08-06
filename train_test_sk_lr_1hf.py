@@ -95,7 +95,6 @@ for yr in range(startyr,1+finalyr):
   # model specific syntax:
   clf = linear_model.LogisticRegression()
   clf.fit(x_train_a, label_train_a)
-  pdb.set_trace()
   prob_a = clf.predict_proba(x_test_a)
   #####################
 
