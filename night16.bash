@@ -29,12 +29,11 @@ TRAINING_AMOUNT=20 #years
 #${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofdGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofd_wideGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 
-exit
 # Then, I should train models.
 # With the models, predict the test data.
 # And, collect Accuracy and Effectiveness:
 
-models=tf16_ofd
+models=tf16_ofd_wide
 
 for MODEL in $models
 do
