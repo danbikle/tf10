@@ -76,7 +76,8 @@ for yr in range(startyr,1+finalyr):
   testf     = 'test'+str(yr)+'.csv' # Data should be in this file.
   test_df   = pd.read_csv(testf)
   test_a    = np.array(test_df)
-  x_test_a  = test_a[:,pctlag1_i:end_i]
+  #  x_test_a  = test_a[:,pctlag1_i:end_i]
+  x_test_a  = test_a[:,wday_i:end_i]
   y_test_a  = test_a[:,pctlead_i]
   label_test_a = (test_a[:,pctlead_i] > class_boundry_f)
   ytest1h_a = np.array([[0,1] if tf else [1,0] for tf in label_test_a])

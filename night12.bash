@@ -22,7 +22,7 @@ ENDYR=2016
 TRAINING_AMOUNT=20 #years
 #${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftrGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
 ${HOME}/anaconda3/bin/python ${TF}/gentrain_test.py ftr_ofdGSPC2.csv $TRAINING_AMOUNT $STARTYR $ENDYR
-exit
+
 # Then, I should train models.
 # With the models, predict the test data.
 # And, collect Accuracy and Effectiveness:
@@ -33,7 +33,7 @@ for MODEL in $models
 do
   ${HOME}/anaconda3/bin/python ${TF}/train_test_${MODEL}.py $STARTYR $ENDYR
 done
-
+exit
 # I should report Accuracy and Effectiveness:
 
 for MODEL in $models
