@@ -56,7 +56,7 @@ weekday_i_l = [day_dt.weekday()               for day_dt in date_l]
 wday_i_l    = [dt.strftime(day_dt,'%w')       for day_dt in date_l]
 dom_i_l     = [dt.strftime(day_dt,'%-d')      for day_dt in date_l]
 moy_i_l     = [dt.strftime(day_dt,'%-m')      for day_dt in date_l]
-woy_i_l     = [dt.strftime(day_dt,'%W')       for day_dt in date_l]
+woy_i_l     = [int(dt.strftime(day_dt,'%W'))  for day_dt in date_l]
 
 df2 = pd.DataFrame(cdate_l)
 df2.columns = ['cdate']
