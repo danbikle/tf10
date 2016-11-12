@@ -9,7 +9,6 @@
 # ${HOME}/anaconda3/bin/python ${TF}/train_test_tf14_1hf.py $STARTYR $ENDYR
 # tail ${TFTMP}/csv/predictions_tf14_1hf_2016.csv
 
-# I use this model to test sklearn logistic regression on ordinal features built from dates:
 model_name = 'tf14_1hf'
 # The ordinal features are:
 # week of day 1,2,3,4,5
